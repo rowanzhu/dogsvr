@@ -1,0 +1,22 @@
+{
+  "name": "dogsvr",
+  "version": "1.0.0",
+  "description": "game server based on nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rowanzhu/dogsvr.git"
+  },
+  "author": "rowanzhu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rowanzhu/dogsvr/issues"
+  },
+  "homepage": "https://github.com/rowanzhu/dogsvr#readme",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
