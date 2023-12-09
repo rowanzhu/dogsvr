@@ -1,8 +1,8 @@
-export class DMessage {
-    cmdId = 0;
-    transId = 0;
-    body: Uint8Array = null;
-
-    constructor() { 
+export class Msg {
+    constructor(
+        public cmdId: number,
+        public txnId: number,
+        public body: Uint8Array
+    ) {
     }
 }

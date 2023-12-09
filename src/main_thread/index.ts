@@ -1,13 +1,14 @@
-import { BaseConnLayer } from "./conn_layer/base_cl";
-import { Worker } from "node:worker_threads"
-import { DTransMgr } from "./transaction";
+import { Worker } from "worker_threads"
+import { BaseCL } from "./conn_layer/base_cl";
+import { TxnMgr } from "./transaction";
+import { Msg } from "../message";
 
 export interface MainThreadInfo {
     workerThreadRunFile: string;
     workerThreadNum: number;
-    connLayer: BaseConnLayer;
+    connLayer: BaseCL;
 }
-let mtInfo: MainThreadInfo = null;
+let mtInfo: MainThreadInfo | null = null;
 
 export async function startServer(info: MainThreadInfo) {
     mtInfo = info;
@@ -17,14 +18,14 @@ export async function startServer(info: MainThreadInfo) {
 }
 
 const workerThreads: Worker[] = [];
-const transMgr: DTransMgr = new DTransMgr();
+const txnMgr: TxnMgr = new TxnMgr();
 
 async function startWorkerThreads() {
-    for (let i = 0; i < mtInfo.workerThreadNum; ++i) {
-        const worker = new Worker(mtInfo.workerThreadRunFile);
+    for (let i = 0; i < mtInfo!.workerThreadNum; ++i) {
+        const worker = new Worker(mtInfo!.workerThreadRunFile);
         workerThreads.push(worker);
-        worker.on("message", (msg) => {
-            transMgr.onWorkerThreadMsg(msg);
+        worker.on("message", (msg: Msg) => {
+            txnMgr.onWorkerThreadMsg(msg);
         });
     }
 }
@@ -35,10 +36,11 @@ function getWorkerThread(): Worker {
     return workerThreads[roundRobinIndex];
 }
 
-export function sendMsgToWorkerThread(msg): Promise<void> {
+export function sendMsgToWorkerThread(msg: Msg): Promise<Msg> {
     return new Promise((resolve, reject) => {
+        msg.txnId = txnMgr.genNewTxnId();
         let worker = getWorkerThread();
         worker.postMessage(msg);
-        transMgr.addTrans(resolve);
+        txnMgr.addTxn(msg.txnId, resolve);
     });
 }

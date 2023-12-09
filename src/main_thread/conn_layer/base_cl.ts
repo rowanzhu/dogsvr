@@ -1,3 +1,3 @@
-export abstract class BaseConnLayer {
+export abstract class BaseCL {
     abstract startListen(): Promise<void>;
 }

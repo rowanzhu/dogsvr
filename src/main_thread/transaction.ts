@@ -1,45 +1,44 @@
-class DTrans {
-    transId: number;
+import { Msg } from "../message";
+
+class Txn {
+    txnId: number;
     callback: Function;
 
-    constructor(transId: number, callback: Function) {
-        this.transId = transId;
+    constructor(txnId: number, callback: Function) {
+        this.txnId = txnId;
         this.callback = callback;
     }
 }
 
-type DTransMapType = { [key: number]: DTrans }
+type TxnMapType = { [key: number]: Txn }
 
-export class DTransMgr {
-    transMap: DTransMapType = {};
-    currTransId = 0;
-    readonly maxTransId = 4200000000;
+export class TxnMgr {
+    txnMap: TxnMapType = {};
+    currTxnId = 0;
+    readonly maxTxnId = 4200000000;
 
     constructor() {
     }
 
-    private genNewTransId(): number {
-        if (this.currTransId >= this.maxTransId) {
-            this.currTransId = 0;
+    genNewTxnId(): number {
+        if (this.currTxnId >= this.maxTxnId) {
+            this.currTxnId = 0;
         }
-        return ++this.currTransId;
+        return ++this.currTxnId;
     }
 
-    addTrans(callback: Function) {
-        let transId = this.genNewTransId();
-        if (this.transMap[transId]) {
-            throw new Error('Transaction already exists');
+    addTxn(txnId:number, callback: Function) {
+        if (this.txnMap[txnId]) {
+            throw new Error('txn already exists');
         }
-        this.transMap[transId] = new DTrans(transId, callback);
+        this.txnMap[txnId] = new Txn(txnId, callback);
     }
 
-    onWorkerThreadMsg(msg: any) {
-        if (msg.type === 'transaction') {
-            let transId = msg.transId;
-            if (this.transMap[transId]) {
-                this.transMap[transId].callback(msg.data);
-                delete this.transMap[transId];
-            }
+    onWorkerThreadMsg(msg: Msg) {
+        let txnId = msg.txnId;
+        if (this.txnMap[txnId]) {
+            this.txnMap[txnId].callback(msg);
+            delete this.txnMap[txnId];
         }
     }
 }

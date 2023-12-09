@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && npx tsc && cp package.json LICENSE README.md dist/"
+    "build": "rm -rf dist && mkdir dist && cp package.json LICENSE README.md dist/ && npx tsc",
+    "tsrpcproto": "npx tsrpc proto"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,10 @@
   },
   "homepage": "https://github.com/rowanzhu/dogsvr#readme",
   "devDependencies": {
+    "tsrpc-cli": "^2.4.5",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "tsrpc": "^3.4.12"
   }
 }
