@@ -1,7 +1,7 @@
 # dogsvr
 dogsvr is a game server package based on nodejs, and makes writing game server easier for rapid development of small teams.
 
-# feature
+# features
 - Adapt to multiple connection methods
 - User-defined protocol serialization
 - Hot update server logic
@@ -14,7 +14,7 @@ npm install dogsvr
 2. creating 2 files at least, one is main thread file, the other is worker thread file
 
 3. writing main thread file
-```
+```ts
 import * as dogsvr from 'dogsvr/main_thread';
 
 const connLayer: dogsvr.TsrpcCL = new dogsvr.TsrpcCL(3000); // connection layer using tsrpc
@@ -27,7 +27,7 @@ const mainThreadInfo: dogsvr.MainThreadInfo =
 dogsvr.startServer(mainThreadInfo);
 ```
 4. writing worker thread file
-```
+```ts
 import * as dogsvr from 'dogsvr/worker_thread';
 
 // register command handler
@@ -37,6 +37,10 @@ dogsvr.regCmdHandler(1001, async (reqMsg: dogsvr.Msg, innerReq: dogsvr.MsgBodyTy
     const res = {res: "I am dog"};
     dogsvr.responseCmd(reqMsg, JSON.stringify(res));
 })
+```
+5. compile and run server
+```
+node test_svr.js  // main thread file
 ```
 Please see the examples folder for complete codes.
 
