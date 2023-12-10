@@ -1,7 +1,7 @@
 import { parentPort } from 'worker_threads';
-import { Msg } from '../message';
+import { Msg, MsgBodyType } from '../message';
 
-export type HandlerType = (reqMsg: Msg, innerReq: Uint8Array) => Promise<void>;
+export type HandlerType = (reqMsg: Msg, innerReq: MsgBodyType) => Promise<void>;
 type HandlerMapType = { [key: number]: HandlerType }
 let handlerMap: HandlerMapType = {};
 
@@ -22,7 +22,9 @@ parentPort!.on('message', (msg: Msg) => {
 }
 );
 
-export function responseCmd(reqMsg: Msg, innerRes: Uint8Array) {
+export function responseCmd(reqMsg: Msg, innerRes: MsgBodyType) {
     reqMsg.body = innerRes;
     parentPort!.postMessage(reqMsg);
 }
+
+export * from "../message"

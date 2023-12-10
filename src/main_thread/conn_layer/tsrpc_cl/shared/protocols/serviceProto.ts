@@ -14,6 +14,7 @@ export interface ServiceType {
 }
 
 export const serviceProto: ServiceProto<ServiceType> = {
+    "version": 1,
     "services": [
         {
             "id": 0,
@@ -36,8 +37,26 @@ export const serviceProto: ServiceProto<ServiceType> = {
                     "id": 1,
                     "name": "innerReq",
                     "type": {
+                        "type": "Reference",
+                        "target": "../../../../../message/MsgBodyType"
+                    }
+                }
+            ]
+        },
+        "../../../../../message/MsgBodyType": {
+            "type": "Union",
+            "members": [
+                {
+                    "id": 0,
+                    "type": {
                         "type": "Buffer",
                         "arrayType": "Uint8Array"
+                    }
+                },
+                {
+                    "id": 1,
+                    "type": {
+                        "type": "String"
                     }
                 }
             ]
@@ -56,8 +75,8 @@ export const serviceProto: ServiceProto<ServiceType> = {
                     "id": 1,
                     "name": "innerRes",
                     "type": {
-                        "type": "Buffer",
-                        "arrayType": "Uint8Array"
+                        "type": "Reference",
+                        "target": "../../../../../message/MsgBodyType"
                     }
                 }
             ]

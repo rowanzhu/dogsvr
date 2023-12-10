@@ -44,3 +44,5 @@ export function sendMsgToWorkerThread(msg: Msg): Promise<Msg> {
         txnMgr.addTxn(msg.txnId, resolve);
     });
 }
+
+export * from "./conn_layer/tsrpc_cl/index";

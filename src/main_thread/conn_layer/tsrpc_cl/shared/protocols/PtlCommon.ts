@@ -1,9 +1,11 @@
+import { MsgBodyType } from "../../../../../message"
+
 export interface ReqCommon {
     cmdId: number,
-    innerReq: Uint8Array
+    innerReq: MsgBodyType
 }
 
 export interface ResCommon {
     cmdId: number,
-    innerRes: Uint8Array
+    innerRes: MsgBodyType
 }
