@@ -22,7 +22,7 @@ parentPort!.on('message', (msg: Msg) => {
 }
 );
 
-export function responseCmd(reqMsg: Msg, innerRes: MsgBodyType) {
+export function respondCmd(reqMsg: Msg, innerRes: MsgBodyType) {
     reqMsg.body = innerRes;
     parentPort!.postMessage(reqMsg);
 }

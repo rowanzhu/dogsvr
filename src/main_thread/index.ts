@@ -2,6 +2,7 @@ import { Worker } from "worker_threads"
 import { BaseCL } from "./conn_layer/base_cl";
 import { TxnMgr } from "./transaction";
 import { Msg } from "../message";
+import { traceLog, debugLog, infoLog, warnLog, errorLog } from "../logger";
 
 export interface MainThreadInfo {
     workerThreadRunFile: string;
@@ -14,7 +15,7 @@ export async function startServer(info: MainThreadInfo) {
     mtInfo = info;
     await startWorkerThreads();
     await mtInfo.connLayer.startListen();
-    console.log("start dog server successfully");
+    infoLog("start dog server successfully");
 }
 
 const workerThreads: Worker[] = [];
@@ -46,3 +47,4 @@ export function sendMsgToWorkerThread(msg: Msg): Promise<Msg> {
 }
 
 export * from "./conn_layer/tsrpc_cl/index";
+export * from "../logger";

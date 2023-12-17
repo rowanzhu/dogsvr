@@ -35,7 +35,7 @@ dogsvr.regCmdHandler(1001, async (reqMsg: dogsvr.Msg, innerReq: dogsvr.MsgBodyTy
     const req = JSON.parse(innerReq as string);
 
     const res = {res: "I am dog"};
-    dogsvr.responseCmd(reqMsg, JSON.stringify(res));
+    dogsvr.respondCmd(reqMsg, JSON.stringify(res));
 })
 ```
 5. compile and run server
