@@ -28,3 +28,4 @@ export function respondCmd(reqMsg: Msg, innerRes: MsgBodyType) {
 }
 
 export * from "../message"
+export * from "../logger"

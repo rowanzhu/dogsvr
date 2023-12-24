@@ -5,12 +5,15 @@ const client = new WsClient(serviceProto, {
     server: 'ws://127.0.0.1:3000'
 });
 
-async function Call() {
+async function Connect() {
     let connRes = await client.connect();
     if (!connRes.isSucc) {
-        console.error('connect failed', connRes.errMsg);
+        console.log('connect failed', connRes.errMsg);
+        return;
     }
+}
 
+async function Call() {
     const req = {req: "Who are you"};
     let ret = await client.callApi('Common', {
         cmdId: 1001,
@@ -25,4 +28,4 @@ async function Call() {
     console.log(JSON.parse(ret.res.innerRes as string));
 }
 
-Call();
+Connect().then(() => {setInterval(Call, 1000 * 5)});

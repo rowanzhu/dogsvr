@@ -1,9 +1,12 @@
-export const LOG_LEVEL_TRACE = 10;
-export const LOG_LEVEL_DEBUG = 20;
-export const LOG_LEVEL_INFO = 30;
-export const LOG_LEVEL_WARN = 40;
-export const LOG_LEVEL_ERROR = 50;
-export const LOG_LEVEL_NONE = 90;
+import {isMainThread, threadId} from "worker_threads";
+import * as util from "node:util";
+
+export const LOG_LEVEL_TRACE = 1;
+export const LOG_LEVEL_DEBUG = 2;
+export const LOG_LEVEL_INFO = 3;
+export const LOG_LEVEL_WARN = 4;
+export const LOG_LEVEL_ERROR = 5;
+export const LOG_LEVEL_NONE = 9;
 
 export interface LoggerImpl {
     trace(...args: any[]): void;
@@ -14,24 +17,50 @@ export interface LoggerImpl {
 }
 
 class ConsoleLoggerImpl implements LoggerImpl {
+    readonly log_level_string_names = ["trace","debug","info","warn","error"];
+    
+    private padNumber(num: number): string {
+        let T = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
+        return T[num] || num.toString();
+    }
+
+    private getTimeString(date: Date): string {
+        return date.getFullYear() + '-'
+            + this.padNumber(date.getMonth() + 1) + '-'
+            + this.padNumber(date.getDate()) + ' '
+            + this.padNumber(date.getHours()) + ':'
+            + this.padNumber(date.getMinutes()) + ':'
+            + this.padNumber(date.getSeconds()) + '.'
+            + date.getMilliseconds();
+    }
+
+    private log(level: number, ...args: any[]) {
+        let content = this.getTimeString(new Date()) + '|'
+            + this.log_level_string_names[level - 1] + '|'
+            + process.pid + "|"
+            + (isMainThread ? "main" : threadId) + "|"
+            + util.format(...args);
+        console.log(content);
+    }
+    
     trace(...args: any[]): void {
-        console.log(...args);
+        this.log(LOG_LEVEL_TRACE, ...args);
     }
 
     debug(...args: any[]): void {
-        console.log(...args);
+        this.log(LOG_LEVEL_DEBUG, ...args);
     }
 
     info(...args: any[]): void {
-        console.log(...args);
+        this.log(LOG_LEVEL_INFO, ...args);
     }
 
     warn(...args: any[]): void {
-        console.log(...args);
+        this.log(LOG_LEVEL_WARN, ...args);
     }
 
     error(...args: any[]): void {
-        console.log(...args);
+        this.log(LOG_LEVEL_ERROR, ...args);
     }
 }
 

@@ -3,6 +3,7 @@ import { BaseCL } from "./conn_layer/base_cl";
 import { TxnMgr } from "./transaction";
 import { Msg } from "../message";
 import { traceLog, debugLog, infoLog, warnLog, errorLog } from "../logger";
+import "./pm2"
 
 export interface MainThreadInfo {
     workerThreadRunFile: string;
@@ -18,7 +19,7 @@ export async function startServer(info: MainThreadInfo) {
     infoLog("start dog server successfully");
 }
 
-const workerThreads: Worker[] = [];
+let workerThreads: Worker[] = [];
 const txnMgr: TxnMgr = new TxnMgr();
 
 async function startWorkerThreads() {
@@ -44,6 +45,15 @@ export function sendMsgToWorkerThread(msg: Msg): Promise<Msg> {
         worker.postMessage(msg);
         txnMgr.addTxn(msg.txnId, resolve);
     });
+}
+
+// TODO: gracefully exit
+export async function hotUpdate() {
+    for (let i = 0; i < workerThreads.length; ++i) {
+        workerThreads[i].terminate();
+    }
+    workerThreads = [];
+    await startWorkerThreads();
 }
 
 export * from "./conn_layer/tsrpc_cl/index";

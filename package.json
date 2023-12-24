@@ -19,10 +19,12 @@
   },
   "homepage": "https://github.com/rowanzhu/dogsvr#readme",
   "devDependencies": {
+    "@types/tx2": "^1.0.3",
     "tsrpc-cli": "^2.4.5",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "tsrpc": "^3.4.12"
+    "tsrpc": "^3.4.12",
+    "tx2": "^1.0.5"
   }
 }
