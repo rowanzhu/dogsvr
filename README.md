@@ -38,9 +38,10 @@ dogsvr.regCmdHandler(1001, async (reqMsg: dogsvr.Msg, innerReq: dogsvr.MsgBodyTy
     dogsvr.respondCmd(reqMsg, JSON.stringify(res));
 })
 ```
-5. compile and run server
-```
-node test_svr.js  // main thread file
+5. run server by pm2
+```sh
+pm2 start test_svr.js  #test_svr.js is main thread file
+pm2 trigger test_svr hotUpdate  #hot update when any logic file has been changed
 ```
 Please see the examples folder for complete codes.
 
