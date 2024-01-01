@@ -12,6 +12,10 @@ export interface MainThreadInfo {
 }
 let mtInfo: MainThreadInfo | null = null;
 
+export function getConnLayer(): BaseCL {
+    return mtInfo!.connLayer;
+}
+
 export async function startServer(info: MainThreadInfo) {
     mtInfo = info;
     await startWorkerThreads();
@@ -58,3 +62,4 @@ export async function hotUpdate() {
 
 export * from "./conn_layer/tsrpc_cl/index";
 export * from "../logger";
+export * from "../message";

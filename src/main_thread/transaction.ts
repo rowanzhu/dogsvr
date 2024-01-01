@@ -1,3 +1,4 @@
+import { errorLog } from "../logger";
 import { Msg } from "../message";
 
 class Txn {
@@ -29,7 +30,8 @@ export class TxnMgr {
 
     addTxn(txnId:number, callback: Function) {
         if (this.txnMap[txnId]) {
-            throw new Error('txn already exists');
+            errorLog('txn already exists', txnId);
+            return;
         }
         this.txnMap[txnId] = new Txn(txnId, callback);
     }

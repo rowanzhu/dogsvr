@@ -16,7 +16,7 @@ async function Connect() {
 async function Call() {
     const req = {req: "Who are you"};
     let ret = await client.callApi('Common', {
-        cmdId: 1001,
+        cmdId: 10001,
         innerReq: JSON.stringify(req)
     });
 

@@ -1,4 +1,5 @@
 import { parentPort } from 'worker_threads';
+import { errorLog } from '../logger';
 import { Msg, MsgBodyType } from '../message';
 
 export type HandlerType = (reqMsg: Msg, innerReq: MsgBodyType) => Promise<void>;
@@ -7,7 +8,8 @@ let handlerMap: HandlerMapType = {};
 
 export function regCmdHandler(cmdId: number, handler: HandlerType) {
     if (handlerMap[cmdId]) {
-        throw new Error(`Handler for cmdId ${cmdId} already exists`);
+        errorLog(`Handler for cmdId ${cmdId} already exists`);
+        return;
     }
     handlerMap[cmdId] = handler;
 }
@@ -17,7 +19,7 @@ parentPort!.on('message', (msg: Msg) => {
     if (handler) {
         handler(msg, msg.body);
     } else {
-        throw new Error(`No handler for cmdId ${msg.cmdId}`);
+        errorLog(`No handler for cmdId ${msg.cmdId}`);
     }
 }
 );
