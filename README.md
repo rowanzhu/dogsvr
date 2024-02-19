@@ -45,7 +45,7 @@ dogsvr.regCmdHandler(10001, async (reqMsg: dogsvr.Msg, innerReq: dogsvr.MsgBodyT
 pm2 start test_svr.js  #test_svr.js is main thread file
 pm2 trigger test_svr hotUpdate  #hot update when any logic file has been changed
 ```
-Please see dogsvr-example-proj for more.
+Please see [dogsvr-example-proj](https://github.com/rowanzhu/dogsvr-example-proj) for complete codes.
 
 # architecture
 TODO
