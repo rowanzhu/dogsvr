@@ -60,6 +60,6 @@ export async function hotUpdate() {
     await startWorkerThreads();
 }
 
-export * from "./conn_layer/tsrpc_cl/index";
+export * from "./conn_layer/base_cl";
 export * from "../logger";
 export * from "../message";

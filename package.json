@@ -1,12 +1,11 @@
 {
   "name": "dogsvr",
-  "version": "0.1.3",
-  "description": "game server based on nodejs",
+  "version": "0.2.0",
+  "description": "Nodejs package for developing game server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf node_modules/dogsvr && mkdir node_modules/dogsvr && cp package.json LICENSE README.md node_modules/dogsvr/ && npx tsc",
-    "tsrpcproto": "npx tsrpc proto"
+    "build": "rm -rf dist && mkdir dist && cp package.json LICENSE README.md dist && npx tsc"
   },
   "repository": {
     "type": "git",
@@ -20,11 +19,9 @@
   "homepage": "https://github.com/rowanzhu/dogsvr#readme",
   "devDependencies": {
     "@types/tx2": "^1.0.3",
-    "tsrpc-cli": "^2.4.5",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   },
   "dependencies": {
-    "tsrpc": "^3.4.12",
     "tx2": "^1.0.5"
   }
 }

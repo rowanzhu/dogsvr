@@ -10,14 +10,16 @@ dogsvr is a game server package based on nodejs, and makes writing game server e
 1. installing dogsvr
 ```
 npm install dogsvr
+npm install dogsvr-cl-tsrpc
 ```
 2. creating 2 files at least, one is main thread file, the other is worker thread file
 
 3. writing main thread file
 ```ts
 import * as dogsvr from 'dogsvr/main_thread';
+import { TsrpcCL } from 'dogsvr-cl-tsrpc';
 
-const connLayer: dogsvr.TsrpcCL = new dogsvr.TsrpcCL(3000); // connection layer using tsrpc
+const connLayer: TsrpcCL = new TsrpcCL(3000); // connection layer using tsrpc
 const mainThreadInfo: dogsvr.MainThreadInfo =
 {
     workerThreadRunFile: "./test_svr_logic.js", // worker thread file name
@@ -43,7 +45,7 @@ dogsvr.regCmdHandler(10001, async (reqMsg: dogsvr.Msg, innerReq: dogsvr.MsgBodyT
 pm2 start test_svr.js  #test_svr.js is main thread file
 pm2 trigger test_svr hotUpdate  #hot update when any logic file has been changed
 ```
-Please see the examples folder for complete codes.
+Please see dogsvr-example-proj for more.
 
 # architecture
 TODO
