@@ -18,8 +18,7 @@
   },
   "homepage": "https://github.com/rowanzhu/dogsvr#readme",
   "devDependencies": {
-    "@types/tx2": "^1.0.3",
-    "typescript": "^5.3.3"
+    "@types/tx2": "^1.0.3"
   },
   "dependencies": {
     "tx2": "^1.0.5"
